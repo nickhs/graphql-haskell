@@ -156,7 +156,8 @@ objectTypeDefinition :: ObjectTypeDefinition -> Text
 objectTypeDefinition (ObjectTypeDefinition name ifaces fds) =
     "type " <> name
             <> optempty (spaced . interfaces) ifaces
-            <> optempty fieldDefinitions fds
+            <> if fds == mempty then "\SP" else fieldDefinitions fds
+               -- whitespace is significant here else we can't tell the difference between tokens
 
 interfaces :: Interfaces -> Text
 interfaces = ("implements " <>) . spaces namedType
